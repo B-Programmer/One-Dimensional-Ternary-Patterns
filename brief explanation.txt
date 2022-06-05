@@ -1,0 +1,69 @@
+1. A brief explanation on the preprocessing stage:
+
+The preprocessing stage includes the removal of unwanted characters, such as punctuation, the blank space, carriage return, and newline characters from the input SMS, and the conversion of the remaining part of the SMS to Unicode(UTF-8 representation of each character in the SMS). 
+
+For example, 
+  Input SMS:  
+	"A Novel Feature Extraction Approach in SMS Spam Filtering for Mobile Communication: 			One-Dimensional Ternary Patterns"
+  
+  Preprocessing Output:
+	First, the unwanted characters were removed; the remaining message was
+		
+	ANovelFeatureExtractionApproachinSMSSpamFilteringforMobileCommunication:
+	OneDimensionalTernaryPatterns
+
+	After this, the message was converted to the UTF-8 values of the characters in the text:
+
+	65 78 111 118 101 108 70 101 97 116 117 114 101 69 120
+	116 114 97 99 116 105 111 110 65 112 112 114 111 97 99
+	104 105 110 83 77 83 83 112 97 109 70 105 108 116 101
+	114 105 110 103 102 111 114 77 111 98 105 108 101 67
+	111 109 109 117 110 105 99 97 116 105 111 110 58
+
+
+2. A brief explanation on the optimization :
+
+This stage involves the action of finding the optimal (best or most effective)values of P(total number of utilized neighbours of sms characters) and B(threshold parameter) of an objective function(1D-TP transformation process on a SMS) using Simulated Annealing Algorithm. This algorithm allows a variation in both P and B to detect different patterns(1D-TP) on the SMS characters from which the optimal values for them are being determine after undergoing a several numbers of trials(iterations); it searches for the best solution by generating a random initial solution and "exploring" the area nearby. If a neighboring solution is better than the current one, then it moves to it. If not, then the algorithm stays put..
+
+The breakdown on how this is achieve has been described in the algorithm and flowchart earlier shared. The python implementation of this process has also been shared (Filename: SMS_1D_TP_Optimization.py).
+
+For example,
+  Input SMS:
+	"URGENT!! Your 4* Costa Del Sol Holiday or £5000 await collection. Call 09050090044 Now toClaim. SAE, TC s, POBox334, Stockport, SK38xh, Cost£1.50/pm, Max10mins"  
+
+
+  Optimization Output:
+	Start  by setting initial value for B and P as  [4, 6]
+	
+	For each trial points in a cycle,
+		evaluate the cost of the objective function(1D-TP) for the current value of B and P
+        	Generate random neighbour of the current value of B and P within the range of [-8, 8] and [-20, and 20] respectively
+		evaluate the cost of the objective function(1D-TP) for the new neighbour value of B and P
+		set ap = acceptance_probability(old_cost, new_cost, T)
+            	if ap > random():
+                	[B, P] = [new_B, new_P]
+                	old_cost = new_cost
+
+	The above operation is evaluated repeatedly with variation in both B and P with different patterns(1D-TP) transformation until the maximum limit set is reached or optimum value is obtained.
+
+		
+	Finally the result will be generated as: 
+
+	Best solution with optimal value B is: 8 and P is: 6
+	Best objective(1D-TP): 20
+ 
+
+
+3. why specifically simulated annealing was chosen over other algorithms to solve the problem:
+
+ 	* There are many optimization algorithms, including hill climbing, genetic algorithms, gradient descent, and more. Simulated annealing's strength is that it avoids getting caught at local maxima(solutions that are better than any others nearby/neighbour) or stuck at a sub-optimal place, but aren't the very best. Simulated annealing injects just the right amount of randomness into things to escape local maxima early in the process without getting off course late in the game, when a solution is nearby. This makes it pretty good at tracking down a decent answer, no matter its starting point. (http://katrinaeg.com/simulated-annealing.html)
+
+	* Simulated Annealing is better than other techniques in finding the global optima because in Simulated Annealing it transcends to the search space. At higher Temperature(T) there is no restriction on the search space and algorithm is free to move anywhere. Certainly this means it will lead to some non-efficient movement across the solution space and perhaps in the wrong direction. As counter-intuitive it may sound,** it is this erratic behaviour that gives Simulated Annealing the power to find global optima** 
+(https://iamaaditya.github.io/2012/10/why-simulated-annealing-works/)
+
+4. a brief explanation on the datasets used:
+  Two datasets from the materials you sent to me were used and every information regarding this is entails in the material. Also, for further information on them visit the following sites:
+	i. SMS Spam Corpus v.0.1 (DS1)  - http://www.esp.uem.es/jmgomez/smsspamcorpus/
+	ii. British English SMS Corpora (DS2) - https://mtaufiqnzz.wordpress.com/british-english-sms-corpora/
+
+
